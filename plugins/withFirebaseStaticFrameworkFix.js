@@ -6,8 +6,9 @@
  *   include of non-modular header inside framework module 'RNFBApp.*'
  *   [-Werror,-Wnon-modular-include-in-framework-module]
  *
- * Fix: sets DEFINES_MODULE = YES for all pod targets in the post_install hook,
- * which allows the Firebase pods to include React Native headers as modular.
+ * Fix: sets CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES
+ * on all pod targets, which directly suppresses the compiler error that
+ * fires when Firebase pods include non-modular React Native headers.
  */
 const { withDangerousMod } = require('@expo/config-plugins');
 const { mergeContents } = require('@expo/config-plugins/build/utils/generateCode');
@@ -25,12 +26,12 @@ function withFirebaseStaticFrameworkFix(config) {
       const contents = fs.readFileSync(podfilePath, 'utf-8');
 
       const result = mergeContents({
-        tag: 'rnfirebase-defines-module-fix',
+        tag: 'rnfirebase-non-modular-fix',
         src: contents,
         newSrc: [
           '  installer.pods_project.targets.each do |target|',
           '    target.build_configurations.each do |config|',
-          "      config.build_settings['DEFINES_MODULE'] = 'YES'",
+          "      config.build_settings['CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES'] = 'YES'",
           '    end',
           '  end',
         ].join('\n'),
