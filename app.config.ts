@@ -22,7 +22,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     infoPlist: {
       ITSAppUsesNonExemptEncryption: false,
       NSCameraUsageDescription:
-        "MigraineScan uses your camera to scan food barcodes.",
+        "MigraineScan uses your camera to scan food barcodes for migraine trigger ingredient detection.",
       NSPhotoLibraryUsageDescription:
         "MigraineScan may access your photo library for barcode images.",
     },
