@@ -52,13 +52,12 @@ export function SubscriptionProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  // Identify user with RevenueCat when auth state changes
+  // Identify user with RevenueCat when auth state changes.
+  // identifyRevenueCatUser MUST complete before fetchStatus — otherwise
+  // getCustomerInfo() may return entitlements for the anonymous session,
+  // causing a premium user to incorrectly see "Free plan" on login.
   useEffect(() => {
-    if (user) {
-      identifyRevenueCatUser(user.uid).catch((err) => {
-        logError(err instanceof Error ? err : new Error(String(err)), { context: 'identifyRevenueCatUser' });
-      });
-    } else {
+    if (!user) {
       resetRevenueCatUser().catch((err) => {
         logError(err instanceof Error ? err : new Error(String(err)), { context: 'resetRevenueCatUser' });
       });
@@ -67,7 +66,17 @@ export function SubscriptionProvider({ children }: { children: ReactNode }) {
       return;
     }
 
-    fetchStatus();
+    const identifyThenFetch = async () => {
+      try {
+        await identifyRevenueCatUser(user.uid);
+      } catch (err) {
+        logError(err instanceof Error ? err : new Error(String(err)), { context: 'identifyRevenueCatUser' });
+        // Non-fatal — proceed to fetchStatus even if identify fails
+      }
+      await fetchStatus();
+    };
+
+    identifyThenFetch();
   }, [user, fetchStatus]);
 
   const purchase = useCallback(async () => {

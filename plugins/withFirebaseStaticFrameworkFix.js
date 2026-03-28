@@ -1,14 +1,17 @@
 /**
- * Config plugin that fixes the non-modular header error when using
- * @react-native-firebase with useFrameworks: 'static' in Expo managed workflow.
+ * Config plugin that fixes build errors when using @react-native-firebase
+ * with useFrameworks: 'static' in Expo managed workflow.
  *
- * Error fixed:
- *   include of non-modular header inside framework module 'RNFBApp.*'
- *   [-Werror,-Wnon-modular-include-in-framework-module]
+ * Applies two fixes:
  *
- * Fix: sets CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES
- * on all pod targets, which directly suppresses the compiler error that
- * fires when Firebase pods include non-modular React Native headers.
+ * 1. Sets $RNFirebaseAsStaticFramework = true before use_react_native! —
+ *    the officially documented RNFirebase flag that configures Firebase pods
+ *    correctly for static framework builds. Without this, Firebase pod headers
+ *    conflict with React Native's module system causing cascading type errors.
+ *
+ * 2. Sets CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES in
+ *    post_install — suppresses any remaining non-modular header warnings
+ *    that survive the $RNFirebaseAsStaticFramework flag.
  */
 const { withDangerousMod } = require('@expo/config-plugins');
 const { mergeContents } = require('@expo/config-plugins/build/utils/generateCode');
@@ -25,9 +28,20 @@ function withFirebaseStaticFrameworkFix(config) {
       );
       const contents = fs.readFileSync(podfilePath, 'utf-8');
 
-      const result = mergeContents({
-        tag: 'rnfirebase-non-modular-fix',
+      // Fix 1: $RNFirebaseAsStaticFramework = true before use_react_native!
+      const step1 = mergeContents({
+        tag: 'rnfirebase-static-framework-flag',
         src: contents,
+        newSrc: '$RNFirebaseAsStaticFramework = true',
+        anchor: /use_react_native!/,
+        offset: 0,
+        comment: '#',
+      });
+
+      // Fix 2: CLANG_ALLOW_NON_MODULAR_INCLUDES in post_install
+      const step2 = mergeContents({
+        tag: 'rnfirebase-non-modular-fix',
+        src: step1.contents,
         newSrc: [
           '  installer.pods_project.targets.each do |target|',
           '    target.build_configurations.each do |config|',
@@ -40,8 +54,8 @@ function withFirebaseStaticFrameworkFix(config) {
         comment: '#',
       });
 
-      if (result.didMerge || result.didClear) {
-        fs.writeFileSync(podfilePath, result.contents);
+      if (step1.didMerge || step2.didMerge || step1.didClear || step2.didClear) {
+        fs.writeFileSync(podfilePath, step2.contents);
       }
 
       return config;
