@@ -18,6 +18,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     bundleIdentifier: "com.migrainescan.app",
     buildNumber: "1",
     usesAppleSignIn: true,
+    googleServicesFile: process.env.GOOGLE_SERVICES_PLIST ?? "./GoogleService-Info.plist",
     infoPlist: {
       NSCameraUsageDescription:
         "MigraineScan uses your camera to scan food barcodes.",
