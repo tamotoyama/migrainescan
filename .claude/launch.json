@@ -1,0 +1,23 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "Mockup Preview (static server)",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["serve", "-l", "3000", ".claude/worktrees/priceless-chaplygin"],
+      "port": 3000
+    },
+    {
+      "name": "expo",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["expo", "start", "--port", "8081", "--clear"],
+      "port": 8081
+    },
+    {
+      "name": "expo-web",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["expo", "start", "--web", "--port", "19006"],
+      "port": 19006
+    }
+  ]
+}

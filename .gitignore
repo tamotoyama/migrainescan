@@ -1,0 +1,31 @@
+node_modules/
+.expo/
+dist/
+build/
+ios/
+android/
+
+# Environment files
+.env
+.env.local
+.env.development
+.env.production
+*.local
+
+# Firebase
+google-services.json
+GoogleService-Info.plist
+firebase-debug.log
+
+# EAS
+.easignore
+
+# macOS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+
+# Expo
+expo-env.d.ts
