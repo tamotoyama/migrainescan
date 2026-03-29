@@ -102,6 +102,11 @@ export const fontFamily = {
   wordmark: 'Nunito_900Black',
 } as const;
 
+// ─── Layout ───────────────────────────────────────────────────────────────────
+// Max content width for tablet layouts. No-op on iPhone (< 620px wide).
+// On iPad the content centers within the wider screen.
+export const TABLET_MAX_WIDTH = 500;
+
 // ─── Gradients ────────────────────────────────────────────────────────────────
 
 export const gradients = {

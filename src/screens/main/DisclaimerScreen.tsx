@@ -1,6 +1,6 @@
 import React from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { theme } from '../../styles/theme';
+import { theme, TABLET_MAX_WIDTH } from '../../styles/theme';
 
 export function DisclaimerScreen({ navigation }: { navigation: any }) {
   return (
@@ -89,6 +89,10 @@ const styles = StyleSheet.create({
     padding: theme.spacing.lg,
     gap: theme.spacing.lg,
     paddingBottom: theme.spacing.xxl,
+    maxWidth: TABLET_MAX_WIDTH,
+    width: '100%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
   title: {
     fontFamily: theme.fontFamily.sans,

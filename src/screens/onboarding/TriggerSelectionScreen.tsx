@@ -5,7 +5,7 @@ import type { OnboardingStackParamList } from '../../navigation/RootStackParamLi
 import type { TriggerCategory } from '../../types';
 import { OnboardingProgressDots } from '../../components/onboarding/OnboardingProgressDots';
 import { PrimaryButton } from '../../components/common/PrimaryButton';
-import { theme } from '../../styles/theme';
+import { theme, TABLET_MAX_WIDTH } from '../../styles/theme';
 
 type Props = NativeStackScreenProps<OnboardingStackParamList, 'TriggerSelection'>;
 
@@ -91,6 +91,10 @@ const styles = StyleSheet.create({
     padding: theme.spacing.lg,
     gap: theme.spacing.lg,
     paddingBottom: theme.spacing.xxl,
+    maxWidth: TABLET_MAX_WIDTH,
+    width: '100%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
   header: { gap: theme.spacing.sm },
   headline: {

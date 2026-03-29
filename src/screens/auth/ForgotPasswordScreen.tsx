@@ -13,7 +13,7 @@ import type { AuthStackParamList } from '../../navigation/RootStackParamList';
 import { PrimaryButton } from '../../components/common/PrimaryButton';
 import { FormInput } from '../../components/common/FormInput';
 import { useAuth } from '../../hooks/useAuth';
-import { theme } from '../../styles/theme';
+import { theme, TABLET_MAX_WIDTH } from '../../styles/theme';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'ForgotPassword'>;
 
@@ -103,6 +103,10 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: theme.spacing.lg,
     gap: theme.spacing.md,
+    maxWidth: TABLET_MAX_WIDTH,
+    width: '100%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
   back: { alignSelf: 'flex-start', paddingBottom: theme.spacing.sm },
   backLabel: {

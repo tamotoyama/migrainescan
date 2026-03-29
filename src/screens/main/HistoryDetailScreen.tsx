@@ -13,7 +13,7 @@ import { VerdictBadge } from '../../components/result/VerdictBadge';
 import { TriggerBreakdownCard } from '../../components/result/TriggerBreakdownCard';
 import { DisclaimerCard } from '../../components/common/DisclaimerCard';
 import { ProfileSnapshotSheet } from '../../components/result/ProfileSnapshotSheet';
-import { theme } from '../../styles/theme';
+import { theme, TABLET_MAX_WIDTH } from '../../styles/theme';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'HistoryDetail'>;
 
@@ -130,6 +130,10 @@ const styles = StyleSheet.create({
     padding: theme.spacing.lg,
     gap: theme.spacing.md,
     paddingBottom: theme.spacing.xxl,
+    maxWidth: TABLET_MAX_WIDTH,
+    width: '100%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
   productCard: {
     backgroundColor: theme.colors.white,

@@ -12,7 +12,7 @@ import type { RootStackParamList } from '../../navigation/RootStackParamList';
 import { PaywallFeatureRow } from '../../components/paywall/PaywallFeatureRow';
 import { PrimaryButton } from '../../components/common/PrimaryButton';
 import { LoadingSpinner } from '../../components/common/LoadingSpinner';
-import { theme } from '../../styles/theme';
+import { theme, TABLET_MAX_WIDTH } from '../../styles/theme';
 import { useSubscription } from '../../hooks/useSubscription';
 import { getPremiumPackage } from '../../services/revenueCat';
 import { logPaywallViewed, logPurchaseStarted, logPurchaseCompleted, logPurchaseRestoreStarted, logPurchaseRestoreCompleted } from '../../firebase/analytics';
@@ -171,6 +171,10 @@ const styles = StyleSheet.create({
     padding: theme.spacing.lg,
     gap: theme.spacing.lg,
     paddingBottom: theme.spacing.xxl,
+    maxWidth: TABLET_MAX_WIDTH,
+    width: '100%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
   header: { gap: 4 },
   appName: {

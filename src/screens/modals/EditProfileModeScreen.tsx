@@ -12,7 +12,7 @@ import type { RootStackParamList } from '../../navigation/RootStackParamList';
 import type { ProfileMode } from '../../types';
 import { ProfileModeCard } from '../../components/onboarding/ProfileModeCard';
 import { PrimaryButton } from '../../components/common/PrimaryButton';
-import { theme } from '../../styles/theme';
+import { theme, TABLET_MAX_WIDTH } from '../../styles/theme';
 import { useUserProfile } from '../../hooks/useUserProfile';
 import { logProfileModeSelected } from '../../firebase/analytics';
 import { logError } from '../../firebase/crashlytics';
@@ -129,6 +129,10 @@ const styles = StyleSheet.create({
     padding: theme.spacing.lg,
     gap: theme.spacing.lg,
     paddingBottom: theme.spacing.xxl,
+    maxWidth: TABLET_MAX_WIDTH,
+    width: '100%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
   header: { gap: theme.spacing.sm },
   headline: {

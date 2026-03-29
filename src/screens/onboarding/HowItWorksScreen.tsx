@@ -6,7 +6,7 @@ import { OnboardingProgressDots } from '../../components/onboarding/OnboardingPr
 import { PrimaryButton } from '../../components/common/PrimaryButton';
 import { DisclaimerCard } from '../../components/common/DisclaimerCard';
 import { useUserProfile } from '../../hooks/useUserProfile';
-import { theme } from '../../styles/theme';
+import { theme, TABLET_MAX_WIDTH } from '../../styles/theme';
 import { logOnboardingCompleted } from '../../firebase/analytics';
 
 type Props = NativeStackScreenProps<OnboardingStackParamList, 'HowItWorks'>;
@@ -75,9 +75,15 @@ const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: theme.colors.background },
   scroll: { flex: 1 },
   content: {
+    flexGrow: 1,
+    justifyContent: 'center',
     padding: theme.spacing.lg,
     gap: theme.spacing.lg,
     paddingBottom: theme.spacing.xxl,
+    maxWidth: TABLET_MAX_WIDTH,
+    width: '100%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
   header: { gap: theme.spacing.sm },
   headline: {

@@ -12,7 +12,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { MainTabParamList } from '../../navigation/RootStackParamList';
 import type { TriggerCategory, SensitivityLevel } from '../../types';
 import { SettingsRow } from '../../components/common/SettingsRow';
-import { theme, getSensitivityLabel } from '../../styles/theme';
+import { theme, getSensitivityLabel, TABLET_MAX_WIDTH } from '../../styles/theme';
 import { useAuth } from '../../hooks/useAuth';
 import { useSubscription } from '../../hooks/useSubscription';
 import { useUserProfile } from '../../hooks/useUserProfile';
@@ -192,6 +192,10 @@ const styles = StyleSheet.create({
     padding: theme.spacing.lg,
     gap: theme.spacing.md,
     paddingBottom: theme.spacing.xxl,
+    maxWidth: TABLET_MAX_WIDTH,
+    width: '100%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
   screenTitle: {
     fontFamily: theme.fontFamily.sans,

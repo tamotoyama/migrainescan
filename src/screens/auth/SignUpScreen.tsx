@@ -14,7 +14,7 @@ import type { AuthStackParamList } from '../../navigation/RootStackParamList';
 import { PrimaryButton } from '../../components/common/PrimaryButton';
 import { FormInput } from '../../components/common/FormInput';
 import { useAuth } from '../../hooks/useAuth';
-import { theme } from '../../styles/theme';
+import { theme, TABLET_MAX_WIDTH } from '../../styles/theme';
 import { logAuthSignupCompleted } from '../../firebase/analytics';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'SignUp'>;
@@ -149,9 +149,15 @@ const styles = StyleSheet.create({
   flex: { flex: 1 },
   scroll: { flex: 1 },
   content: {
+    flexGrow: 1,
+    justifyContent: 'center',
     padding: theme.spacing.lg,
     gap: theme.spacing.md,
     paddingBottom: theme.spacing.xxl,
+    maxWidth: TABLET_MAX_WIDTH,
+    width: '100%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
   back: { alignSelf: 'flex-start', paddingBottom: theme.spacing.sm },
   backLabel: {

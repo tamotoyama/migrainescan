@@ -4,7 +4,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { OnboardingStackParamList } from '../../navigation/RootStackParamList';
 import { OnboardingProgressDots } from '../../components/onboarding/OnboardingProgressDots';
 import { PrimaryButton } from '../../components/common/PrimaryButton';
-import { theme } from '../../styles/theme';
+import { theme, TABLET_MAX_WIDTH } from '../../styles/theme';
 import { logOnboardingStarted } from '../../firebase/analytics';
 
 type Props = NativeStackScreenProps<OnboardingStackParamList, 'OnboardingIntro'>;
@@ -57,9 +57,15 @@ const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: theme.colors.background },
   scroll: { flex: 1 },
   content: {
+    flexGrow: 1,
+    justifyContent: 'center',
     padding: theme.spacing.lg,
     gap: theme.spacing.lg,
     paddingBottom: theme.spacing.xxl,
+    maxWidth: TABLET_MAX_WIDTH,
+    width: '100%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
   heroCard: {
     backgroundColor: theme.colors.primaryLight,

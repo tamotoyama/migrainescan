@@ -15,7 +15,7 @@ import { ProfileNudgeCard } from '../../components/result/ProfileNudgeCard';
 import { ConfidencePill } from '../../components/result/ConfidencePill';
 import { DisclaimerCard } from '../../components/common/DisclaimerCard';
 import { PrimaryButton } from '../../components/common/PrimaryButton';
-import { theme } from '../../styles/theme';
+import { theme, TABLET_MAX_WIDTH } from '../../styles/theme';
 import { logResultViewed } from '../../firebase/analytics';
 import { generateConfidenceSummaryLabel } from '../../logic/verdictGenerator';
 
@@ -127,6 +127,10 @@ const styles = StyleSheet.create({
     padding: theme.spacing.lg,
     gap: theme.spacing.md,
     paddingBottom: theme.spacing.xxl,
+    maxWidth: TABLET_MAX_WIDTH,
+    width: '100%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
   productCard: {
     backgroundColor: theme.colors.white,

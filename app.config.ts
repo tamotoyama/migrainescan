@@ -14,7 +14,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     backgroundColor: "#FDFBF7",
   },
   ios: {
-    supportsTablet: false,
+    supportsTablet: true,
     bundleIdentifier: "com.migrainescan.app",
     buildNumber: "1",
     usesAppleSignIn: true,
@@ -42,14 +42,9 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     [
       "expo-build-properties",
       {
-        ios: {
-          useFrameworks: "static",
-        },
+        ios: {},
       },
     ],
-    "@react-native-firebase/app",
-    "@react-native-firebase/crashlytics",
-    "./plugins/withFirebaseStaticFrameworkFix",
   ],
   extra: {
     eas: {

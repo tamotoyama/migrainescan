@@ -13,7 +13,7 @@ import type { ScanHistoryDoc } from '../../types';
 import { LoadingSpinner } from '../../components/common/LoadingSpinner';
 import { EmptyState } from '../../components/common/EmptyState';
 import { ErrorCard } from '../../components/common/ErrorCard';
-import { theme, getVerdictColors } from '../../styles/theme';
+import { theme, getVerdictColors, TABLET_MAX_WIDTH } from '../../styles/theme';
 import { useSubscription } from '../../hooks/useSubscription';
 import { useAuth } from '../../hooks/useAuth';
 import { getScanHistory } from '../../firebase/firestore';
@@ -152,6 +152,10 @@ const styles = StyleSheet.create({
     padding: theme.spacing.lg,
     gap: theme.spacing.sm,
     paddingBottom: theme.spacing.xxl,
+    maxWidth: TABLET_MAX_WIDTH,
+    width: '100%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
   gate: {
     flex: 1,
@@ -159,6 +163,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: theme.spacing.xl,
     gap: theme.spacing.md,
+    maxWidth: TABLET_MAX_WIDTH,
+    width: '100%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
   gateTitle: {
     fontFamily: theme.fontFamily.sans,

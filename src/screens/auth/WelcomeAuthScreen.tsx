@@ -11,7 +11,7 @@ import Svg, { Circle, Path, Rect } from 'react-native-svg';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { AuthStackParamList } from '../../navigation/RootStackParamList';
 import { PrimaryButton } from '../../components/common/PrimaryButton';
-import { theme } from '../../styles/theme';
+import { theme, TABLET_MAX_WIDTH } from '../../styles/theme';
 import { logAuthSignupStarted } from '../../firebase/analytics';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'WelcomeAuth'>;
@@ -100,9 +100,15 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   content: {
+    flexGrow: 1,
+    justifyContent: 'center',
     padding: theme.spacing.lg,
     gap: theme.spacing.xl,
     paddingBottom: theme.spacing.xxl,
+    maxWidth: TABLET_MAX_WIDTH,
+    width: '100%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
   illustrationWrapper: {
     borderRadius: theme.radius.lg,

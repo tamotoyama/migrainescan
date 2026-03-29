@@ -10,7 +10,7 @@ import {
 import Svg, { Ellipse, Path, Polygon, Rect } from 'react-native-svg';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { MainTabParamList } from '../../navigation/RootStackParamList';
-import { theme } from '../../styles/theme';
+import { theme, TABLET_MAX_WIDTH } from '../../styles/theme';
 import { useAuth } from '../../hooks/useAuth';
 import { useScanLimit } from '../../hooks/useScanLimit';
 import { useUserProfile } from '../../hooks/useUserProfile';
@@ -122,6 +122,10 @@ const styles = StyleSheet.create({
     gap: theme.spacing.md,
     paddingBottom: theme.spacing.xxl,
     alignItems: 'center',
+    maxWidth: TABLET_MAX_WIDTH,
+    width: '100%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
   hero: {
     alignItems: 'center',
@@ -151,7 +155,6 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     color: theme.colors.textSecondary,
     textAlign: 'center',
-    maxWidth: 280,
     lineHeight: 22,
   },
   nudgeCard: {
