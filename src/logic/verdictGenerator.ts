@@ -8,6 +8,8 @@ import type {
   PreprocessedProduct,
 } from '../types';
 import { isProfileCompleteEnough } from './profileDefaults';
+import { SCORING_MODEL_VERSION } from './ingredientDatabase';
+import { PREPROCESSOR_VERSION } from './preprocessor';
 
 // ─── Verdict thresholds ───────────────────────────────────────────────────────
 
@@ -29,8 +31,13 @@ export function generateVerdict(
     if (mildCount >= 2) verdict = 'REVIEW';
   }
 
-  // Conservative modifier §8: missing ingredients must never produce SAFE (spec §8)
-  if (verdict === 'SAFE' && preprocessed.dataCompleteness === 'missing_ingredients') {
+  // Conservative modifier §8 (extended): incomplete data must never produce SAFE.
+  // Covers both missing_ingredients (no data at all) and partial (non-English,
+  // tag-only fallback, etc.) — we couldn't fully read the label in either case.
+  if (verdict === 'SAFE' && (
+    preprocessed.dataCompleteness === 'missing_ingredients' ||
+    preprocessed.dataCompleteness === 'partial'
+  )) {
     verdict = 'REVIEW';
   }
 
@@ -50,8 +57,8 @@ export function generateVerdict(
     showProfileNudge,
     dataCompletenessNote,
     scannedAt: new Date().toISOString(),
-    scoringModelVersion: '1.0.0',
-    preprocessorVersion: '1.0.0',
+    scoringModelVersion: SCORING_MODEL_VERSION,
+    preprocessorVersion: PREPROCESSOR_VERSION,
     triggerProfileSnapshot: { ...profile },
   };
 }
@@ -91,9 +98,9 @@ export function generateVerdictMessage(
 
 export function generateConfidenceSummaryLabel(confidence: ConfidenceLevel): string {
   switch (confidence) {
-    case 'high':   return 'High confidence — triggers identified explicitly in ingredient list.';
-    case 'medium': return 'Medium confidence — some signals may be indirect or ambiguous.';
-    case 'low':    return 'Low confidence — detection is based on indirect signals only.';
+    case 'high':   return 'Confirmed — all triggers were identified explicitly in the ingredient list.';
+    case 'medium': return 'Likely present — some ingredients may be indirect or ambiguous matches.';
+    case 'low':    return 'Inferred — detection is based on indirect signals. Check the label yourself.';
   }
 }
 
@@ -119,10 +126,22 @@ function buildDataCompletenessNote(preprocessed: PreprocessedProduct): string | 
       return 'No ingredient data was available for this product. Results may be incomplete.';
 
     case 'partial':
+      if (preprocessed.ambiguityFlags.includes('non_english_ingredients')) {
+        return 'Ingredient text appears to be in another language. Results may be incomplete — check the label manually.';
+      }
+      if (preprocessed.ambiguityFlags.includes('missing_ingredients_text')) {
+        return 'No ingredient text was found for this product. Results are based on limited product metadata.';
+      }
       return 'Ingredient data for this product is limited. Results are based on partial information.';
 
     case 'complete':
-      // Still surface ambiguity flags even when completeness = complete
+      // Surface the most specific / actionable flag first
+      if (preprocessed.ambiguityFlags.includes('natural_nitrate_deception_label')) {
+        return 'This product is labeled "No Nitrates Added" but contains celery or beet extract, which are natural nitrate sources. The nitrate content may still be significant.';
+      }
+      if (preprocessed.ambiguityFlags.includes('natural_nitrate_source')) {
+        return 'This product may contain natural nitrate sources (e.g. celery or beet extract). These are not always labeled as nitrates.';
+      }
       if (preprocessed.ambiguityFlags.includes('indirect_glutamate_signal')) {
         return 'Some signals in this product were detected indirectly and may not represent confirmed triggers.';
       }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { MainTabParamList } from '../../navigation/RootStackParamList';
 import type { ScanHistoryDoc } from '../../types';
@@ -14,6 +15,7 @@ import { LoadingSpinner } from '../../components/common/LoadingSpinner';
 import { EmptyState } from '../../components/common/EmptyState';
 import { ErrorCard } from '../../components/common/ErrorCard';
 import { theme, getVerdictColors, TABLET_MAX_WIDTH } from '../../styles/theme';
+import { Ionicons } from '@expo/vector-icons';
 import { useSubscription } from '../../hooks/useSubscription';
 import { useAuth } from '../../hooks/useAuth';
 import { getScanHistory } from '../../firebase/firestore';
@@ -59,7 +61,7 @@ function HistoryRow({ item, onPress }: { item: ScanHistoryDoc; onPress: () => vo
         <View style={[styles.verdictBadge, { backgroundColor: colors.bg, borderColor: colors.border }]}>
           <Text style={[styles.verdictLabel, { color: colors.text }]}>{item.verdict}</Text>
         </View>
-        <Text style={styles.chevron}>›</Text>
+        <Ionicons name="chevron-forward" size={16} color={theme.colors.textSecondary} />
       </View>
     </TouchableOpacity>
   );
@@ -89,10 +91,12 @@ export function HistoryScreen({ navigation }: Props) {
     }
   };
 
-  useEffect(() => {
-    fetchHistory();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, isPremium]);
+  useFocusEffect(
+    useCallback(() => {
+      fetchHistory();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [user, isPremium]),
+  );
 
   const handleUpgrade = () => {
     (navigation as any).navigate('PaywallModal', { source: 'history_gate' });
@@ -245,11 +249,5 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '800',
     letterSpacing: 0.5,
-  },
-  chevron: {
-    fontSize: 20,
-    fontWeight: '300',
-    color: theme.colors.textSecondary,
-    lineHeight: 24,
   },
 });

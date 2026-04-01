@@ -8,6 +8,7 @@ import {
   View,
 } from 'react-native';
 import Svg, { Ellipse, Path, Polygon, Rect } from 'react-native-svg';
+import { Ionicons } from '@expo/vector-icons';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { MainTabParamList } from '../../navigation/RootStackParamList';
 import { theme, TABLET_MAX_WIDTH } from '../../styles/theme';
@@ -64,11 +65,17 @@ export function HomeScreen({ navigation }: Props) {
             onPress={() => (navigation as any).navigate('AccountTab')}
             activeOpacity={0.8}
           >
-            <Text style={styles.nudgeTitle}>⚠ Complete your profile</Text>
+            <View style={styles.nudgeTitleRow}>
+              <Ionicons name="warning-outline" size={14} color={theme.colors.verdictReview} />
+              <Text style={styles.nudgeTitle}>Complete your profile</Text>
+            </View>
             <Text style={styles.nudgeBody}>
               Set your trigger sensitivities for more tailored results.
             </Text>
-            <Text style={styles.nudgeAction}>Set up →</Text>
+            <View style={styles.nudgeActionRow}>
+              <Text style={styles.nudgeAction}>Set up</Text>
+              <Ionicons name="arrow-forward" size={13} color={theme.colors.verdictReview} />
+            </View>
           </TouchableOpacity>
         )}
 
@@ -104,7 +111,10 @@ export function HomeScreen({ navigation }: Props) {
             onPress={() => (navigation as any).navigate('PaywallModal', { source: 'home_scan_limit' })}
             activeOpacity={0.7}
           >
-            <Text style={styles.upgradeLinkLabel}>View Premium →</Text>
+            <View style={styles.upgradeLinkRow}>
+              <Text style={styles.upgradeLinkLabel}>View Premium</Text>
+              <Ionicons name="arrow-forward" size={14} color={theme.colors.primary} />
+            </View>
           </TouchableOpacity>
         )}
       </ScrollView>
@@ -166,6 +176,11 @@ const styles = StyleSheet.create({
     padding: theme.spacing.md,
     gap: 4,
   },
+  nudgeTitleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
   nudgeTitle: {
     fontFamily: theme.fontFamily.sans,
     fontSize: 14,
@@ -177,6 +192,11 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: '400',
     color: theme.colors.textSecondary,
+  },
+  nudgeActionRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
   },
   nudgeAction: {
     fontFamily: theme.fontFamily.sans,
@@ -215,6 +235,11 @@ const styles = StyleSheet.create({
     color: theme.colors.textSecondary,
   },
   upgradeLink: { alignItems: 'center', paddingVertical: theme.spacing.xs },
+  upgradeLinkRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
   upgradeLinkLabel: {
     fontFamily: theme.fontFamily.sans,
     fontSize: 14,

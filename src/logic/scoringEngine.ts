@@ -79,8 +79,8 @@ export function scoreMatches(
 
     let weight = severityWeight * confidenceMultiplier * sensitivityMultiplier;
 
-    // Caffeine minimum rule — always at least mild concern
-    if (category === 'caffeine') {
+    // Caffeine minimum rule — always at least mild concern, unless user opted out
+    if (category === 'caffeine' && userSensitivity !== 'none') {
       weight = Math.max(weight, CAFFEINE_MIN_WEIGHT);
     }
 
@@ -135,10 +135,17 @@ function computeConfidenceSummary(
 ): ConfidenceLevel {
   if (scored.length === 0) return 'high';
 
-  const highCount = scored.filter((s) => s.confidence === 'high').length;
-  const lowCount  = scored.filter((s) => s.confidence === 'low').length;
+  const totalWeight = scored.reduce((sum, s) => sum + s.weightApplied, 0);
+  if (totalWeight === 0) return 'high';
 
-  if (lowCount > scored.length / 2) return 'low';
-  if (highCount >= scored.length / 2) return 'high';
+  const highShare = scored
+    .filter((s) => s.confidence === 'high')
+    .reduce((sum, s) => sum + s.weightApplied, 0) / totalWeight;
+  const lowShare = scored
+    .filter((s) => s.confidence === 'low')
+    .reduce((sum, s) => sum + s.weightApplied, 0) / totalWeight;
+
+  if (lowShare > 0.5) return 'low';
+  if (highShare >= 0.5) return 'high';
   return 'medium';
 }

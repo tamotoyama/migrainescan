@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import type { TriggerProfile, SensitivityLevel } from '../../types';
 import { theme, getSensitivityLabel } from '../../styles/theme';
 
@@ -74,7 +75,7 @@ export function ProfileSnapshotSheet({ visible, onClose, snapshot, scanDate }: P
           <View style={styles.sheetHeader}>
             <Text style={styles.sheetTitle}>Profile at scan time</Text>
             <TouchableOpacity onPress={onClose} style={styles.closeButton} hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}>
-              <Text style={styles.closeLabel}>✕</Text>
+              <Ionicons name="close" size={16} color={theme.colors.textSecondary} />
             </TouchableOpacity>
           </View>
 
@@ -157,12 +158,6 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.surface,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  closeLabel: {
-    fontFamily: theme.fontFamily.sans,
-    fontSize: 12,
-    fontWeight: '700',
-    color: theme.colors.textSecondary,
   },
   explanation: {
     paddingHorizontal: theme.spacing.lg,

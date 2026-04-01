@@ -16,6 +16,7 @@ import { ConfidencePill } from '../../components/result/ConfidencePill';
 import { DisclaimerCard } from '../../components/common/DisclaimerCard';
 import { PrimaryButton } from '../../components/common/PrimaryButton';
 import { theme, TABLET_MAX_WIDTH } from '../../styles/theme';
+import { Ionicons } from '@expo/vector-icons';
 import { logResultViewed } from '../../firebase/analytics';
 import { generateConfidenceSummaryLabel } from '../../logic/verdictGenerator';
 
@@ -36,8 +37,9 @@ export function ResultScreen({ navigation, route }: Props) {
   return (
     <SafeAreaView style={styles.safe}>
       <View style={styles.topBar}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Text style={styles.backLabel}>← Result</Text>
+        <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+          <Ionicons name="chevron-back" size={18} color={theme.colors.primary} />
+          <Text style={styles.backLabel}>Result</Text>
         </TouchableOpacity>
       </View>
 
@@ -63,14 +65,18 @@ export function ResultScreen({ navigation, route }: Props) {
           message={scanResult.verdictMessage}
         />
 
-        {/* Confidence */}
-        <View style={styles.confidenceRow}>
-          <Text style={styles.confidenceLabel}>Confidence</Text>
-          <ConfidencePill confidence={scanResult.scoreResult.confidenceSummary} />
-        </View>
-        <Text style={styles.confidenceSummaryText}>
-          {generateConfidenceSummaryLabel(scanResult.scoreResult.confidenceSummary)}
-        </Text>
+        {/* Confidence — only meaningful when triggers were actually found */}
+        {scanResult.scoreResult.scoredTriggers.length > 0 && (
+          <>
+            <View style={styles.confidenceRow}>
+              <Text style={styles.confidenceLabel}>Detection</Text>
+              <ConfidencePill confidence={scanResult.scoreResult.confidenceSummary} />
+            </View>
+            <Text style={styles.confidenceSummaryText}>
+              {generateConfidenceSummaryLabel(scanResult.scoreResult.confidenceSummary)}
+            </Text>
+          </>
+        )}
 
         {/* Data completeness note */}
         {scanResult.dataCompletenessNote && (
@@ -82,13 +88,13 @@ export function ResultScreen({ navigation, route }: Props) {
         {/* Triggers breakdown */}
         {scanResult.scoreResult.scoredTriggers.length > 0 ? (
           <TriggerBreakdownCard triggers={scanResult.scoreResult.scoredTriggers} />
-        ) : (
+        ) : !scanResult.dataCompletenessNote ? (
           <View style={styles.noTriggersCard}>
             <Text style={styles.noTriggersText}>
               No common migraine trigger ingredients were detected in our database.
             </Text>
           </View>
-        )}
+        ) : null}
 
         {/* Profile nudge */}
         {scanResult.showProfileNudge && (
@@ -115,6 +121,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: theme.spacing.lg,
     paddingTop: theme.spacing.sm,
     paddingBottom: theme.spacing.xs,
+  },
+  backButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   backLabel: {
     fontFamily: theme.fontFamily.sans,

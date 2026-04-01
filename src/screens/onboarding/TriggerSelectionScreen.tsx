@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { OnboardingStackParamList } from '../../navigation/RootStackParamList';
 import type { TriggerCategory } from '../../types';
@@ -64,7 +65,7 @@ export function TriggerSelectionScreen({ navigation }: Props) {
                   <Text style={styles.itemDescription}>{t.description}</Text>
                 </View>
                 <View style={[styles.checkBox, isSelected && styles.checkBoxSelected]}>
-                  {isSelected && <Text style={styles.checkMark}>✓</Text>}
+                  {isSelected && <Ionicons name="checkmark" size={14} color={theme.colors.white} />}
                 </View>
               </TouchableOpacity>
             );
@@ -153,7 +154,6 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.primary,
     borderColor: theme.colors.primary,
   },
-  checkMark: { color: theme.colors.white, fontSize: 14, fontWeight: '800' },
   skip: {
     fontFamily: theme.fontFamily.sans,
     fontSize: 14,

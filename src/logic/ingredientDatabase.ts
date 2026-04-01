@@ -1,7 +1,7 @@
 import type { TriggerEntry } from '../types';
 
-export const SCORING_MODEL_VERSION = '1.0.0';
-export const PREPROCESSOR_VERSION = '1.0.0';
+export const SCORING_MODEL_VERSION = '1.3.0';
+export const PREPROCESSOR_VERSION = '1.3.0';
 
 export const TRIGGER_DATABASE: TriggerEntry[] = [
   // ─── Tyramine ──────────────────────────────────────────────────────────────
@@ -132,7 +132,7 @@ export const TRIGGER_DATABASE: TriggerEntry[] = [
     category: 'msg_glutamates',
     severity: 'moderate',
     confidence: 'high',
-    patterns: ['glutamate', 'potassium glutamate', 'calcium glutamate', 'magnesium glutamate', 'disodium guanylate', 'disodium inosinate'],
+    patterns: ['potassium glutamate', 'calcium glutamate', 'magnesium glutamate', 'disodium guanylate', 'disodium inosinate'],
     wholeWordOnly: true,
     explanation: 'Glutamate-based additives are flavor enhancers related to MSG and sometimes discussed as migraine concerns.',
   },
@@ -287,7 +287,19 @@ export const TRIGGER_DATABASE: TriggerEntry[] = [
     category: 'alcohol',
     severity: 'moderate',
     confidence: 'high',
-    patterns: ['red wine', 'white wine', 'cooking wine', 'wine'],
+    patterns: [
+      // Core cooking wines (most common in packaged food labels)
+      'red wine', 'white wine', 'cooking wine', 'marsala wine',
+      'cooking sherry', 'sherry wine', 'sherry',
+      'port wine', 'port',
+      // Rice-based wines (common in Asian food products)
+      'rice wine', 'sake', 'mirin',
+      // Other varietal / style wines that appear in ingredient lists
+      'rosé wine', 'dessert wine', 'vermouth',
+      'burgundy wine', 'madeira wine', 'champagne',
+      // Varietal grape wines sometimes listed explicitly
+      'cabernet', 'merlot', 'chardonnay', 'pinot noir', 'sauvignon blanc',
+    ],
     wholeWordOnly: true,
     explanation: 'Wine is among the most commonly reported alcohol-related migraine triggers, particularly red wine.',
     caveat: 'Red wine contains both alcohol and histamine, making it a dual trigger for some.',
@@ -308,7 +320,18 @@ export const TRIGGER_DATABASE: TriggerEntry[] = [
     category: 'alcohol',
     severity: 'moderate',
     confidence: 'medium',
-    patterns: ['beer', 'ale', 'lager', 'stout', 'malt beverage'],
+    patterns: [
+      // Generic beer terms
+      'beer', 'lager', 'stout', 'porter', 'malt beverage', 'dark beer',
+      // Ale styles (specific enough to avoid "ginger ale", "kale", etc.)
+      'pale ale', 'india pale ale', 'ipa', 'amber ale', 'brown ale',
+      'wheat ale', 'golden ale',
+      // Other common beer styles
+      'pilsner', 'pilsener', 'hefeweizen', 'dunkel', 'bock',
+      'wheat beer', 'barleywine', 'barley wine',
+      // Malt-based
+      'malt liquor',
+    ],
     wholeWordOnly: true,
     explanation: 'Beer-based ingredients contain alcohol and may be used in sauces, marinades, and specialty foods.',
   },
@@ -322,6 +345,59 @@ export const TRIGGER_DATABASE: TriggerEntry[] = [
     wholeWordOnly: true,
     explanation: 'Explicit alcohol presence in ingredients is flagged as a migraine concern.',
     caveat: 'Small amounts used as flavor carriers are common and vary in significance.',
+  },
+
+  // ─── Natural nitrate sources ────────────────────────────────────────────────
+
+  {
+    id: 'nitrate_natural_source',
+    displayName: 'Natural Nitrate Source',
+    category: 'nitrates_nitrites',
+    severity: 'mild',
+    confidence: 'low',
+    patterns: [
+      'celery powder', 'celery juice powder', 'celery juice', 'celery extract',
+      'beet juice powder', 'beet juice', 'beet extract',
+      'vegetable juice powder',
+    ],
+    wholeWordOnly: false,
+    explanation: 'Celery and beet-derived powders are commonly used as natural nitrate sources in "uncured" or "no nitrates added" processed meats.',
+    caveat: 'Nitrate levels vary by product. This is a lower-confidence signal than synthetic sodium nitrite.',
+  },
+
+  // ─── Caffeine — chocolate / cocoa ──────────────────────────────────────────
+
+  {
+    id: 'caffeine_chocolate',
+    displayName: 'Chocolate / Cocoa',
+    category: 'caffeine',
+    severity: 'mild',
+    confidence: 'medium',
+    patterns: [
+      'cocoa', 'cacao', 'dark chocolate', 'chocolate liquor',
+      'cocoa powder', 'cocoa solids', 'cacao powder', 'cacao nibs',
+      'chocolate extract', 'cocoa extract',
+    ],
+    wholeWordOnly: false,
+    explanation: 'Cocoa and chocolate contain caffeine and theobromine. Dark chocolate and cocoa powder have the highest concentrations.',
+    caveat: 'Milk chocolate and light cocoa flavoring may contribute minimal caffeine. Individual sensitivity varies.',
+  },
+
+  // ─── MSG — hidden natural flavors ──────────────────────────────────────────
+
+  {
+    id: 'msg_hidden_natural_flavors',
+    displayName: 'Natural Flavors / Seasoning',
+    category: 'msg_glutamates',
+    severity: 'mild',
+    confidence: 'low',
+    patterns: [
+      'natural flavor', 'natural flavors', 'natural flavoring',
+      'natural flavorings', 'natural seasoning', 'natural smoke flavor',
+    ],
+    wholeWordOnly: false,
+    explanation: '"Natural flavors" is a broad FDA category that can legally include glutamate-containing substances such as yeast extract, hydrolyzed proteins, or other free-glutamate sources.',
+    caveat: 'Most products using "natural flavors" do not contain concentrated glutamates. This is a low-confidence signal only.',
   },
 ];
 

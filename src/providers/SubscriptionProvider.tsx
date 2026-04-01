@@ -32,13 +32,19 @@ export const SubscriptionContext = createContext<SubscriptionState | null>(null)
 
 // ─── Provider ─────────────────────────────────────────────────────────────────
 
+// Flip to true to simulate a premium account in local dev.
+// The __DEV__ guard ensures this can never be true in a TestFlight or
+// production build regardless of this value.
+const DEV_FORCE_PREMIUM = __DEV__ && false;
+
 export function SubscriptionProvider({ children }: { children: ReactNode }) {
   const { user } = useAuth();
-  const [isPremium, setIsPremium] = useState(false);
+  const [isPremium, setIsPremium] = useState(DEV_FORCE_PREMIUM);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const fetchStatus = useCallback(async () => {
+    if (DEV_FORCE_PREMIUM) return;
     try {
       setError(null);
       const status = await getCustomerStatus();
@@ -61,7 +67,7 @@ export function SubscriptionProvider({ children }: { children: ReactNode }) {
       resetRevenueCatUser().catch((err) => {
         logError(err instanceof Error ? err : new Error(String(err)), { context: 'resetRevenueCatUser' });
       });
-      setIsPremium(false);
+      if (!DEV_FORCE_PREMIUM) setIsPremium(false);
       setLoading(false);
       return;
     }

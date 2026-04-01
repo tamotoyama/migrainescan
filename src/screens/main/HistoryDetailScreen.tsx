@@ -14,6 +14,7 @@ import { TriggerBreakdownCard } from '../../components/result/TriggerBreakdownCa
 import { DisclaimerCard } from '../../components/common/DisclaimerCard';
 import { ProfileSnapshotSheet } from '../../components/result/ProfileSnapshotSheet';
 import { theme, TABLET_MAX_WIDTH } from '../../styles/theme';
+import { Ionicons } from '@expo/vector-icons';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'HistoryDetail'>;
 
@@ -50,8 +51,9 @@ export function HistoryDetailScreen({ navigation, route }: Props) {
   return (
     <SafeAreaView style={styles.safe}>
       <View style={styles.topBar}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Text style={styles.backLabel}>← History</Text>
+        <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+          <Ionicons name="chevron-back" size={18} color={theme.colors.primary} />
+          <Text style={styles.backLabel}>History</Text>
         </TouchableOpacity>
       </View>
 
@@ -80,11 +82,11 @@ export function HistoryDetailScreen({ navigation, route }: Props) {
           onPress={() => setSheetVisible(true)}
           activeOpacity={0.7}
         >
-          <Text style={styles.attributionIcon}>🕐</Text>
+          <Ionicons name="time-outline" size={14} color={theme.colors.textSecondary} />
           <Text style={styles.attributionText}>
             Scored with your profile from {shortDate}
           </Text>
-          <Text style={styles.attributionInfo}>ⓘ</Text>
+          <Ionicons name="information-circle-outline" size={16} color={theme.colors.primary} />
         </TouchableOpacity>
 
         {/* Trigger breakdown */}
@@ -118,6 +120,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: theme.spacing.lg,
     paddingTop: theme.spacing.sm,
     paddingBottom: theme.spacing.xs,
+  },
+  backButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   backLabel: {
     fontFamily: theme.fontFamily.sans,
@@ -178,20 +184,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: theme.spacing.md,
     paddingVertical: 10,
   },
-  attributionIcon: {
-    fontSize: 14,
-  },
   attributionText: {
     flex: 1,
     fontFamily: theme.fontFamily.sans,
     fontSize: 13,
     fontWeight: '400',
     color: theme.colors.textSecondary,
-  },
-  attributionInfo: {
-    fontSize: 16,
-    color: theme.colors.primary,
-    lineHeight: 20,
   },
   noTriggersCard: {
     backgroundColor: theme.colors.verdictSafeBg,

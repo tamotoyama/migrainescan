@@ -12,6 +12,7 @@ import { CameraView, useCameraPermissions } from 'expo-camera';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../navigation/RootStackParamList';
 import { theme } from '../../styles/theme';
+import { Ionicons } from '@expo/vector-icons';
 import { useUserProfile } from '../../hooks/useUserProfile';
 import { useScanLimit } from '../../hooks/useScanLimit';
 import { lookupProduct } from '../../services/openFoodFacts';
@@ -126,7 +127,7 @@ export function ScannerScreen({ navigation }: Props) {
           </Text>
           {permission.canAskAgain ? (
             <TouchableOpacity style={styles.permissionButton} onPress={requestPermission}>
-              <Text style={styles.permissionButtonLabel}>Grant Access</Text>
+              <Text style={styles.permissionButtonLabel}>Continue</Text>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity
@@ -162,13 +163,13 @@ export function ScannerScreen({ navigation }: Props) {
             style={styles.closeButton}
             onPress={() => navigation.goBack()}
           >
-            <Text style={styles.closeLabel}>✕</Text>
+            <Ionicons name="close" size={20} color="white" />
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.torchButton}
             onPress={() => setTorchOn((t) => !t)}
           >
-            <Text style={styles.torchLabel}>{torchOn ? '💡' : '🔦'}</Text>
+            <Ionicons name={torchOn ? 'flash' : 'flash-off'} size={20} color="white" />
           </TouchableOpacity>
         </View>
 
@@ -238,7 +239,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  closeLabel: { color: 'white', fontSize: 18, fontWeight: '700' },
   torchButton: {
     width: 40,
     height: 40,
@@ -247,7 +247,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  torchLabel: { fontSize: 18 },
   frameArea: {
     flex: 1,
     alignItems: 'center',

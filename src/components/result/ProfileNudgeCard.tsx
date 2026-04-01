@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { theme } from '../../styles/theme';
 
 interface Props {
@@ -15,7 +16,10 @@ export function ProfileNudgeCard({ onSetUp }: Props) {
         Set your sensitivities for more tailored results.
       </Text>
       <TouchableOpacity style={styles.button} onPress={onSetUp} activeOpacity={0.7}>
-        <Text style={styles.buttonLabel}>Set up profile →</Text>
+        <View style={styles.buttonRow}>
+          <Text style={styles.buttonLabel}>Set up profile</Text>
+          <Ionicons name="arrow-forward" size={13} color={theme.colors.verdictReview} />
+        </View>
       </TouchableOpacity>
     </View>
   );
@@ -46,6 +50,11 @@ const styles = StyleSheet.create({
   button: {
     alignSelf: 'flex-start',
     marginTop: theme.spacing.xs,
+  },
+  buttonRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
   },
   buttonLabel: {
     fontFamily: theme.fontFamily.sans,

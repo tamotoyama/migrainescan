@@ -1,13 +1,15 @@
 import React from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { theme, TABLET_MAX_WIDTH } from '../../styles/theme';
 
 export function DisclaimerScreen({ navigation }: { navigation: any }) {
   return (
     <SafeAreaView style={styles.safe}>
       <View style={styles.topBar}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Text style={styles.backLabel}>← Back</Text>
+        <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+          <Ionicons name="chevron-back" size={18} color={theme.colors.primary} />
+          <Text style={styles.backLabel}>Back</Text>
         </TouchableOpacity>
       </View>
 
@@ -54,6 +56,27 @@ export function DisclaimerScreen({ navigation }: { navigation: any }) {
         </View>
 
         <View style={styles.section}>
+          <Text style={styles.sectionTitle}>How results are scored</Text>
+          <Text style={styles.body}>
+            When you scan a product, MigraineScan checks the ingredient list
+            against a database of common migraine trigger categories — including
+            tyramine, histamine, MSG, nitrates, artificial sweeteners, caffeine,
+            and alcohol.{'\n\n'}
+            Each detected ingredient is assigned a{' '}
+            <Text style={styles.bold}>severity</Text> (how strongly that category
+            is linked to migraines in general) and a{' '}
+            <Text style={styles.bold}>detection level</Text> (how clearly it was
+            found in the ingredient list). Ingredients listed explicitly by name
+            are weighted more heavily than those inferred indirectly.{'\n\n'}
+            Your sensitivity settings shift how the overall verdict is calculated.
+            A trigger you marked as "High" sensitivity contributes more to the
+            score than one marked "None." The final verdict reflects the combined
+            signal across all detected triggers relative to your profile — not any
+            single ingredient in isolation.
+          </Text>
+        </View>
+
+        <View style={styles.section}>
           <Text style={styles.sectionTitle}>Data sources</Text>
           <Text style={styles.body}>
             Product ingredient data is sourced from OpenFoodFacts
@@ -77,6 +100,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: theme.spacing.lg,
     paddingTop: theme.spacing.sm,
     paddingBottom: theme.spacing.xs,
+  },
+  backButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   backLabel: {
     fontFamily: theme.fontFamily.sans,

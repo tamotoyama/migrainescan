@@ -28,11 +28,18 @@ export function matchTriggers(
         if (!matchedEntryIds.has(entry.id)) {
           matchedEntryIds.add(entry.id);
 
-          // Check if preprocessor found a higher-confidence hint for this entry
+          // Check if preprocessor found a higher-confidence hint for this entry.
+          // Also check normalizedText so that additive-tag hints (where matchedText
+          // is the raw tag like 'en:e621' and normalizedText is 'monosodium glutamate')
+          // propagate correctly to the matcher.
+          const patternLower = pattern.toLowerCase();
           const candidateHint = preprocessed.candidateTriggerMatches.find(
             (c) =>
               c.triggerCategory === entry.category &&
-              c.matchedText.toLowerCase().includes(pattern.toLowerCase()),
+              (
+                c.matchedText.toLowerCase().includes(patternLower) ||
+                c.normalizedText.toLowerCase().includes(patternLower)
+              ),
           );
 
           const confidenceOverride: ConfidenceLevel | undefined =

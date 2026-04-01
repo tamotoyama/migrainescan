@@ -14,6 +14,7 @@ import { PrimaryButton } from '../../components/common/PrimaryButton';
 import { FormInput } from '../../components/common/FormInput';
 import { useAuth } from '../../hooks/useAuth';
 import { theme, TABLET_MAX_WIDTH } from '../../styles/theme';
+import { Ionicons } from '@expo/vector-icons';
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'ForgotPassword'>;
 
@@ -48,7 +49,8 @@ export function ForgotPasswordScreen({ navigation }: Props) {
       >
         <View style={styles.content}>
           <TouchableOpacity style={styles.back} onPress={() => navigation.goBack()}>
-            <Text style={styles.backLabel}>← Back</Text>
+            <Ionicons name="chevron-back" size={18} color={theme.colors.primary} />
+            <Text style={styles.backLabel}>Back</Text>
           </TouchableOpacity>
 
           <Text style={styles.headline}>Reset your password</Text>
@@ -108,7 +110,7 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
     marginRight: 'auto',
   },
-  back: { alignSelf: 'flex-start', paddingBottom: theme.spacing.sm },
+  back: { alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center', paddingBottom: theme.spacing.sm },
   backLabel: {
     fontFamily: theme.fontFamily.sans,
     fontSize: 14,

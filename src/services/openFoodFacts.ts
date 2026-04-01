@@ -112,6 +112,7 @@ function normalizeProduct(
     ingredientsTags: product.ingredients_tags ?? [],
     additivesTags: product.additives_tags ?? [],
     categoriesTags: product.categories_tags ?? [],
+    labelsTags: product.labels_tags ?? [],
   };
 }
 
@@ -159,4 +160,5 @@ interface OFFProduct {
   ingredients_tags?: string[];
   additives_tags?: string[];
   categories_tags?: string[];
+  labels_tags?: string[];
 }

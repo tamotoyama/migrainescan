@@ -25,7 +25,10 @@ export function applyConservativeDefaults(
 
 export function isProfileCompleteEnough(profile: TriggerProfile): boolean {
   const values = Object.values(profile) as SensitivityLevel[];
-  return values.some((v) => v !== 'unknown');
+  const completedCount = values.filter((v) => v !== 'unknown').length;
+  // Require 2+ sensitivities set. A profile with only 1 of 7 categories
+  // configured still has too many unknowns to waive the conservative modifier.
+  return completedCount >= 2;
 }
 
 export function computePersonalizationCompletion(

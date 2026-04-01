@@ -13,6 +13,7 @@ import { PaywallFeatureRow } from '../../components/paywall/PaywallFeatureRow';
 import { PrimaryButton } from '../../components/common/PrimaryButton';
 import { LoadingSpinner } from '../../components/common/LoadingSpinner';
 import { theme, TABLET_MAX_WIDTH } from '../../styles/theme';
+import { Ionicons } from '@expo/vector-icons';
 import { useSubscription } from '../../hooks/useSubscription';
 import { getPremiumPackage } from '../../services/revenueCat';
 import { logPaywallViewed, logPurchaseStarted, logPurchaseCompleted, logPurchaseRestoreStarted, logPurchaseRestoreCompleted } from '../../firebase/analytics';
@@ -83,7 +84,7 @@ export function PaywallScreen({ navigation }: Props) {
     <SafeAreaView style={styles.safe}>
       <View style={styles.topBar}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.closeButton}>
-          <Text style={styles.closeLabel}>✕</Text>
+          <Ionicons name="close" size={18} color={theme.colors.textSecondary} />
         </TouchableOpacity>
       </View>
 
@@ -159,12 +160,6 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.surface,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  closeLabel: {
-    fontFamily: theme.fontFamily.sans,
-    fontSize: 14,
-    fontWeight: '700',
-    color: theme.colors.textSecondary,
   },
   scroll: { flex: 1 },
   content: {

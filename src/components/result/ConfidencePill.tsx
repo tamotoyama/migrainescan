@@ -18,9 +18,9 @@ export function ConfidencePill({ confidence }: Props) {
   const bg = CONFIDENCE_BG[confidence];
 
   const label =
-    confidence === 'high' ? 'High Confidence' :
-    confidence === 'medium' ? 'Medium Confidence' :
-    'Low Confidence';
+    confidence === 'high' ? 'Confirmed' :
+    confidence === 'medium' ? 'Likely present' :
+    'Inferred';
 
   return (
     <View style={[styles.pill, { backgroundColor: bg }]}>

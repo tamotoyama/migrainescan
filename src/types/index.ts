@@ -81,6 +81,7 @@ export interface RawProductInput {
   ingredientsTags?: string[];
   additivesTags?: string[];
   categoriesTags?: string[];
+  labelsTags?: string[];
 }
 
 export interface ProductLookupResult {
@@ -92,6 +93,7 @@ export interface ProductLookupResult {
   ingredientsTags?: string[];
   additivesTags?: string[];
   categoriesTags?: string[];
+  labelsTags?: string[];
 }
 
 // ─── Preprocessing ───────────────────────────────────────────────────────────
