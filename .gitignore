@@ -29,3 +29,5 @@ firebase-debug.log
 
 # Expo
 expo-env.d.ts
+
+.claude/
